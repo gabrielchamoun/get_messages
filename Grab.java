@@ -9,16 +9,25 @@ public class Grab {
     public Grab (String fileName) {
         this.fileName = fileName;
         this.list = new ArrayList<String>();
-        this.makeList();
+        this.makeList(); //Making list of words
     }
 
-
+    //Returns total number of messages
     public int getTotal() {
         return this.list.size();
     }
 
+    //Return number of times desired word appears
+    public int getWordCount (String desired) {
+        int counter = 0;
+        for (String possible : this.list) {
+            if (possible.compareToIgnoreCase(desired) == 0) counter++;
+        }
+        return counter;
+    }
 
-    //Method when Grab is instantiated 
+
+    //Method when Grab is instantiated to
     private void makeList () {
             String[] newLine;
             String line;
