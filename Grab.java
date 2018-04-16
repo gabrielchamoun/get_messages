@@ -1,33 +1,47 @@
 import java.io.*;
-import java.util.ArrayList;
+import java.util.*;
 
 public class Grab {
 
     private String fileName;
-    private ArrayList<String> list;
+    private HashMap <String, Integer> mesmap;
     
     public Grab (String fileName) {
         this.fileName = fileName;
-        this.list = new ArrayList<String>();
+        mesmap = new HashMap<String, Integer>();
         this.makeList(); //Making list of words
     }
 
     //Returns total number of messages
     public int getTotal() {
-        return this.list.size();
-    }
-
-    //Return number of times desired word appears
-    public int getWordCount (String desired) {
-        int counter = 0;
-        for (String possible : this.list) {
-            if (possible.compareToIgnoreCase(desired) == 0) counter++;
+        int total = 0;
+        for (int i : this.mesmap.values()) {
+            total += i;
         }
-        return counter;
+        return total;
+    }
+
+    //Return number of desired word
+    public int getWordCount (String desired) {
+        return this.mesmap.get(desired);
+    }
+
+    public String getCommon () {
+        int i = 0;
+        String common = "";
+        for (String current : this.mesmap.keySet()) {
+            if (i < mesmap.get(current)) {
+                i = mesmap.get(current);
+                common = current;
+            }
+        }
+
+        
+        return common + " appeared the most at "+ i + " times.";
     }
 
 
-    //Method when Grab is instantiated to
+
     private void makeList () {
             String[] newLine;
             String line;
@@ -45,8 +59,12 @@ public class Grab {
                 if (newLine.length > 0) {
                     for (String word : newLine) {
                         //placing each hashed out word into ArrayList
-                        if (word.length() > 1) {    //only if word is more than 1 character
-                            this.list.add(word);
+                        if (word.length() > 0) {    //word should not be a space
+                            if (mesmap.containsKey(word.toLowerCase()) == false) {
+                                this.mesmap.put(word.toLowerCase(), 1);
+                            } else {
+                                mesmap.replace(word.toLowerCase(), this.mesmap.get(word.toLowerCase()).intValue() + 1);
+                            }
                         }
                     }
                 }
