@@ -23,7 +23,8 @@ public class Grab {
 
     //Return number of desired word
     public int getWordCount (String desired) {
-        return this.mesmap.get(desired);
+        if (this.mesmap.containsKey(desired)) return this.mesmap.get(desired);
+        return 0;
     }
 
     public String getCommon () {
@@ -35,9 +36,7 @@ public class Grab {
                 common = current;
             }
         }
-
-        
-        return common + " appeared the most at "+ i + " times.";
+        return "'" + common + "' appeared the most at "+ i + " times.";
     }
 
 
